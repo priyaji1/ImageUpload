@@ -16,7 +16,7 @@ interface IApiService {
     fun uploadImageApi(
         @Part image: MultipartBody.Part,
         @Part("key") apiKey: RequestBody?
-    ): Call<Any>
+    ): Call<ImageUploadResponse>
 
 
 

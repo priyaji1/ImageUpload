@@ -62,7 +62,7 @@ class APICallManager<T>(
             RequestBody.create("text/plain".toMediaTypeOrNull(), AppConstant.API_DEFAULT_KEY)
 
         val call = APIClient.getClient().uploadImageApi(imageMultipart, keyBody)
-        call.enqueue(this@APICallManager as retrofit2.Callback<Any>)
+        call.enqueue(this@APICallManager as retrofit2.Callback<ImageUploadResponse>)
 
     }
 }

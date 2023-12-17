@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.dev.imageupload.base.BaseActivity
 import com.dev.imageupload.databinding.ActivityMainBinding
+import com.dev.imageupload.util.AppConstant
 import com.dev.imageupload.util.AppUtil
 import com.dev.imageupload.util.PathUtil.getPath
 import com.dev.imageupload.viewmodel.MainViewModel
@@ -55,6 +56,7 @@ class MainActivity : BaseActivity() {
     private fun setObserable() {
         viewModel.imageUploadSuccess.observe(this, Observer {
             hideProgressBar()
+            showToast(AppConstant.imageUploaded)
 
         })
         viewModel.error.observe(this, Observer {
@@ -74,7 +76,7 @@ class MainActivity : BaseActivity() {
             showProgressBar()
             filePath?.let { viewModel.uploadPhoto(it) }
         } else {
-            showToast("Please choose an image first.")
+            showToast(AppConstant.choose_image)
         }
 
     }
