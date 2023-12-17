@@ -55,16 +55,13 @@ class APICallManager<T>(
     }
 
     fun uploadImageApi(image:String) {
-        var carImageMultipart: MultipartBody.Part? = null
-        carImageMultipart = AppUtil.getMediaMultiPart(image, "image")
+
+       val imageMultipart = AppUtil.getMediaMultiPart(image, AppConstant.IMAGE)
 
         val keyBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), "97ddda37f62bc11b732510bb454b31c9")
+            RequestBody.create("text/plain".toMediaTypeOrNull(), AppConstant.API_DEFAULT_KEY)
 
-
-        val k = "97ddda37f62bc11b732510bb454b31c9"
-        val call =
-            APIClient.getClient().uploadImageApi(carImageMultipart, keyBody)
+        val call = APIClient.getClient().uploadImageApi(imageMultipart, keyBody)
         call.enqueue(this@APICallManager as retrofit2.Callback<Any>)
 
     }
