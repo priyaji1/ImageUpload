@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.dev.imageupload.base.BaseActivity
 import com.dev.imageupload.databinding.ActivityMainBinding
+import com.dev.imageupload.util.AppUtil
 import com.dev.imageupload.util.PathUtil.getPath
 import com.dev.imageupload.viewmodel.MainViewModel
 
@@ -28,15 +29,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         ui = ActivityMainBinding.inflate(layoutInflater)
         setContentView(ui.root)
-        initUI()
         setListener()
         setObserable()
     }
 
 
-    private fun initUI() {
 
-    }
 
     private fun setListener() {
         ui.apply {
@@ -57,7 +55,7 @@ class MainActivity : BaseActivity() {
     private fun setObserable() {
         viewModel.imageUploadSuccess.observe(this, Observer {
             hideProgressBar()
-            showToast("${it.message}")
+
         })
         viewModel.error.observe(this, Observer {
             hideProgressBar()
@@ -98,27 +96,16 @@ class MainActivity : BaseActivity() {
 
             imagePreview.setImageURI(uri)
 
-            val fileName = uri?.let { getFileName(it) }
-            val fileType = uri?.let { getFileType(it) }
+            val fileName = uri?.let { AppUtil.getFileName(it,this@MainActivity) }
+            val fileType = uri?.let { AppUtil.getFileType(it,this@MainActivity) }
 
             tvFileInfo.text = "File: $fileName\nType: $fileType"
         }
 
     }
 
-    private fun getFileName(uri: Uri): String {
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        val nameIndex = cursor?.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        cursor?.moveToFirst()
-        val name = cursor?.getString(nameIndex ?: 0)
-        cursor?.close()
-        return name ?: ""
-    }
 
-    private fun getFileType(uri: Uri): String {
-        val type = contentResolver.getType(uri)
-        return type ?: ""
-    }
+
 
     private fun showToast(message: String) {
         // Display a toast message (You can implement your own toast mechanism)
